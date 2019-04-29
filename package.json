@@ -1,18 +1,20 @@
 {
-  "name": "sistem-kehadiran-online-ariya-reinhart-rogo",
-  "version": "0.0.0",
-  "private": true,
+  "name": "node-js-offline-first",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "serve": "nodemon index.js"
   },
+  "author": "Ariya Wildan, Reinhart Ceisar, Rogo Jagad Alit",
+  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
-    "http-errors": "~1.6.2",
-    "morgan": "~1.9.0",
-    "pug": "2.0.0-beta11"
+    "nodemon": "^1.18.10",
+    "realm": "^2.24.0",
+    "superagent": "^4.1.0"
   }
 }
