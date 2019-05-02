@@ -235,18 +235,21 @@ app.get('/rekap/:idmatakuliah/:pertemuanke', (req, res) => {
 app.get('/rekapmahasiswa/:nrp/:id', (req, res) => {
     let nrp = req.params.nrp
     let id = req.params.id
+    let rekap = {}
 
     if (parseInt(id)) { //is semester ID, record per mahasiswa per semester
-        let peserta = pesertaRealm.objects('Peserta').filtered(
+        rekap = pesertaRealm.objects('Peserta').filtered(
             'nrp = "' + nrp + '"' + ' AND ' + 'semester = "' + id + '"'
         )
-
-        res.status(200)
-        res.send(peserta)
     }
     else { //is matkul id, record per mahasiswa per matkul
-
+        rekap = pesertaRealm.objects('Peserta').filtered(
+            'nrp = "' + nrp + '"' + ' AND ' + 'idMatkul = "' + id + '"'
+        )
     }
+
+    res.status(200)
+    res.send(rekap)
 })
 
 app.get('/delete', (req, res) => {
