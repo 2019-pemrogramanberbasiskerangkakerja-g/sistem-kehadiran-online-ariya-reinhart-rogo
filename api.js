@@ -30,6 +30,27 @@ app.post('/tambahmahasiswa', (req, res) => {
     let nrp = req.body.nrp
     let password = req.body.password
     let nama = req.body.nama
+
+    if (!password && nrp && nama) {
+        res.status(400)
+            .json({
+                message: "Parameter not complete"
+            })
+    }
+    else {
+        userRealm.write(() => {
+            userRealm.create('User', {
+                nrp: nrp,
+                nama: nama,
+                password: password,
+            })
+        })
+
+        res.status(201)
+            .json({
+                message: "User created"
+            })
+    }
 })
 
 app.post('/absen', (req, res) => {
