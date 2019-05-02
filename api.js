@@ -110,18 +110,20 @@ app.post('/absen', (req, res) => {
     }
 })
 
-app.post('/tambahpeserta/:idmatakuliah/:kelas/:nrp', (req, res) => {
+app.post('/tambahpeserta/:idmatakuliah/:kelas/:smt/:nrp', (req, res) => {
     let kelas = req.params.kelas
     let idMatkul = req.params.idmatakuliah + "-" + kelas
     let nrp = req.params.nrp
+    let smt = req.params.smt
     console.log(idMatkul)
-    if (idMatkul && nrp && kelas) {
+    if (idMatkul && nrp && kelas && smt) {
         if (isIdMatkulExists(idMatkul) && isNrpExists(nrp)) {
 
             pesertaRealm.write(() => {
                 pesertaRealm.create('Peserta', {
                     idMatkul: idMatkul,
-                    nrp: nrp
+                    nrp: nrp,
+                    semester: smt
                 })
             })
 
@@ -232,8 +234,19 @@ app.get('/rekap/:idmatakuliah/:pertemuanke', (req, res) => {
 
 app.get('/rekapmahasiswa/:nrp/:id', (req, res) => {
     let nrp = req.params.nrp
-    let idMatkul = req.params.idmatakuliah
-    let idSemester = req.params.idsemester
+    let id = req.params.id
+
+    if (parseInt(id)) { //is semester ID, record per mahasiswa per semester
+        let peserta = pesertaRealm.objects('Peserta').filtered(
+            'nrp = "' + nrp + '"' + ' AND ' + 'semester = "' + id + '"'
+        )
+
+        res.status(200)
+        res.send(peserta)
+    }
+    else { //is matkul id, record per mahasiswa per matkul
+
+    }
 })
 
 app.get('/delete', (req, res) => {
