@@ -276,6 +276,26 @@ app.get('/delete', (req, res) => {
     res.send("Deleted")
 })
 
+app.post('/user', (req, res) => {
+    let nrp = req.params.nrp
+    let password = req.params.password
+
+    let user = userRealm.objects('User').filtered(
+        'nrp = "' + nrp + '"' + ' AND ' + 'password = "' + password + '"'
+    )
+
+    if (user.length == 0) {
+        res.statusCode(404).json({
+            message: "User not found"
+        })
+    }
+    else {
+        res.statusCode(200).json({
+            message: "User found"
+        })
+    }
+})
+
 app.listen(3001, () => {
     console.log("API Server started")
 })
