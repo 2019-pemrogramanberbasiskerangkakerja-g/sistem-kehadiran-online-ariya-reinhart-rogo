@@ -3,6 +3,7 @@ module.exports = {
         name: 'Peserta',
         properties: {
             idMatkul: 'string',
+            semester: 'string',
             nrp: 'string',
             p1: { type: 'int', default: 0 },
             p2: { type: 'int', default: 0 },
