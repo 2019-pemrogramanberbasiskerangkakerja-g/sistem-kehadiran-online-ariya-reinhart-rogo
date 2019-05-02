@@ -3,8 +3,8 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const session = require('express-session')
-const realm = require('realm')
 const agent = require('superagent')
+const realm = require('realm')
 const app = express()
 
 let Users = []
@@ -20,20 +20,6 @@ app.use(
         secret: "user session"
     })
 )
-
-let UserSchema = {
-    name: 'User',
-    properties: {
-        username: 'string',
-        password: 'string'
-    }
-}
-
-let userRealm = new Realm({
-    path: 'user.realm',
-    schema: [UserSchema]
-})
-
 
 app.set('view engine', 'ejs')
 
@@ -51,17 +37,28 @@ app.get('/register', (reg, res) => {
 })
 
 app.post('/register', (req, res) => {
-    let username = req.body['username']
+    let nrp = req.body['nrp']
+    let nama = req.body['nama']
     let password = req.body['password']
 
-    userRealm.write(() => {
-        userRealm.create('User', {
-            username: username,
-            password: password,
+    agent.post('localhost:3001/tambahmahasiswa')
+        .send({
+            nrp: nrp,
+            nama: nama,
+            password: password
         })
-    })
-
-    res.render('register-success.ejs')
+        .then(
+            (response) => {
+                if (response.status == 201) {
+                    res.render('register-success.ejs')
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+            }
+        )
 })
 
 app.post('/login', (req, res) => {
