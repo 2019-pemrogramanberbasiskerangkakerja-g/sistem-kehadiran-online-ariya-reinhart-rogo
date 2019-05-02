@@ -11,6 +11,7 @@ app.use(bodyParser.json())
 let User = require('./models/User')
 let Matkul = require('./models/Matkul')
 let Jadwal = require('./models/Jadwal')
+let Peserta = require('./models/Peserta')
 
 let userRealm = new Realm({
     path: 'realm-db/user.realm',
@@ -25,6 +26,11 @@ let matkulRealm = new Realm({
 let jadwalRealm = new Realm({
     path: 'realm-db/jadwal.realm',
     schema: [Jadwal.Schema]
+})
+
+let pesertaRealm = new Realm({
+    path: 'realm-db/peserta.realm',
+    schema: [Peserta.Schema]
 })
 
 app.post('/tambahmahasiswa', (req, res) => {
@@ -58,11 +64,85 @@ app.post('/tambahmahasiswa', (req, res) => {
 app.post('/absen', (req, res) => {
     let ruang = req.body.ruang
     let nrp = req.body.nrp
+
+    if (ruang && nrp) {
+        let jadwal = jadwalRealm.objects('Jadwal').filtered(
+            'ruang = "' + ruang + '"'
+        )
+
+        let todayTime = new Date()
+        let idMatkul = ""
+        let pertemuanKe = "1"
+
+        for (var i = 0; i < jadwal.length; i++) {
+            let jamMasuk = jadwal[i].jamMasuk
+            let jamSelesai = jadwal[i].jamSelesai
+
+            if (todayTime.getDate() == jamMasuk.getDate() && todayTime.getMonth() == jamMasuk.getMonth()) {
+                if (todayTime.getHours() >= jamMasuk.getHours() && todayTime.getHours() <= jamSelesai.getHours()) {
+                    if (todayTime.getMinutes() <= jamSelesai.getMinutes()) {
+                        idMatkul = jadwal[i].idMatkul;
+                        pertemuanKe = jadwal[i].pertemuanKe.toString();
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        let peserta = pesertaRealm.objects('Peserta').filtered(
+            'nrp = "' + nrp + '"' + ' AND ' + 'idMatkul = "' + idMatkul + '"'
+        )
+
+        pesertaRealm.write(() => {
+            peserta[0]["p" + pertemuanKe] = 1
+        })
+
+        console.log(peserta[0])
+
+        res.status(200).json({ message: "Success" })
+    }
+    else {
+        res.status(400)
+            .json({
+                message: "Parameter not complete or key is wrong"
+            })
+    }
 })
 
-app.post('/tambahpeserta/:idmatakuliah/:nrp', (req, res) => {
-    let idMatkul = req.params.idmatkul
+app.post('/tambahpeserta/:idmatakuliah/:kelas/:nrp', (req, res) => {
+    let kelas = req.params.kelas
+    let idMatkul = req.params.idmatakuliah + "-" + kelas
     let nrp = req.params.nrp
+    console.log(idMatkul)
+    if (idMatkul && nrp && kelas) {
+        if (isIdMatkulExists(idMatkul) && isNrpExists(nrp)) {
+
+            pesertaRealm.write(() => {
+                pesertaRealm.create('Peserta', {
+                    idMatkul: idMatkul,
+                    nrp: nrp
+                })
+            })
+
+            res.status(201)
+                .json({
+                    message: "Peserta added"
+                })
+        }
+        else {
+            res.status(404)
+                .json({
+                    message: "ID Matkul or NRP is not exists"
+                })
+        }
+    }
+    else {
+        res.status(400)
+            .json({
+                message: "Parameter not complete or key is wrong"
+            })
+    }
 })
 
 app.post('/tambahmatkul', (req, res) => {
@@ -73,9 +153,8 @@ app.post('/tambahmatkul', (req, res) => {
     if (idMatkul && namaMatkul && kelas) {
         matkulRealm.write(() => {
             matkulRealm.create('Matkul', {
-                idMatkul: idMatkul,
+                idMatkul: idMatkul + "-" + kelas,
                 namaMatkul: namaMatkul,
-                kelas: kelas,
             })
         })
 
@@ -117,7 +196,7 @@ app.post('/tambahjadwal', (req, res) => {
                 })
         }
         else {
-            res.status(400)
+            res.status(404)
                 .json({
                     message: "Mata kuliah with this ID not exists"
                 })
@@ -136,11 +215,13 @@ app.get('/', (req, res) => {
     let user = userRealm.objects('User')
     let matkul = matkulRealm.objects('Matkul')
     let jadwal = jadwalRealm.objects('Jadwal')
+    let peserta = pesertaRealm.objects('Peserta')
 
     res.json({
         user: user,
         matkul: matkul,
-        jadwal: jadwal
+        jadwal: jadwal,
+        peserta: peserta
     })
 })
 
@@ -171,6 +252,11 @@ app.get('/delete', (req, res) => {
         jadwalRealm.deleteAll()
     })
 
+    pesertaRealm.write(() => {
+        let peserta = pesertaRealm.objects('Peserta')
+        pesertaRealm.deleteAll()
+    })
+
     res.send("Deleted")
 })
 
@@ -189,6 +275,19 @@ function isIdMatkulExists(id) {
     )
 
     if (matkul.length == 0) {
+        return false
+    }
+    else {
+        return true
+    }
+}
+
+function isNrpExists(nrp) {
+    let user = userRealm.objects('User').filtered(
+        'nrp = "' + nrp + '"'
+    )
+
+    if (user.length == 0) {
         return false
     }
     else {
