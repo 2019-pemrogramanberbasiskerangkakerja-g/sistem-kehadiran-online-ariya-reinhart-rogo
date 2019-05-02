@@ -227,9 +227,40 @@ app.get('/', (req, res) => {
     })
 })
 
+app.get('/rekap/:idmatakuliah', (req, res) => {
+    let idMatkul = req.params.idmatakuliah
+    let rekap = {}
+
+    rekap = pesertaRealm.objects('Peserta').filtered(
+        'idMatkul = "' + idMatkul + '"'
+    )
+
+    res.status(200).send(rekap)
+})
+
 app.get('/rekap/:idmatakuliah/:pertemuanke', (req, res) => {
     let idMatkul = req.params.idmatakuliah
     let pertemuanKe = req.params.pertemuanke
+    let rekap = {}
+
+    let pertemuanQuery = "p" + pertemuanKe
+
+    let result = pesertaRealm.objects('Peserta').filtered(
+        'idMatkul = "' + idMatkul + '"'
+    )
+    // console.log(result[0]["nrp"])
+    rekap["idMatkul"] = idMatkul
+    rekap["pertemuanKe"] = pertemuanKe
+    rekap["data"] = {}
+
+    for (var i = 0; i < result.length; i++) {
+        let nrp = result[i]["nrp"]
+        let pertemuanRec = result[i][pertemuanQuery]
+
+        rekap["data"][nrp] = pertemuanRec
+    }
+
+    res.status(200).send(rekap)
 })
 
 app.get('/rekapmahasiswa/:nrp/:id', (req, res) => {
