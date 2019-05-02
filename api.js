@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const realm = require('realm')
 const app = express()
+const moment = require('moment')
 
 app.use(bodyParser.json())
 
@@ -31,13 +32,7 @@ app.post('/tambahmahasiswa', (req, res) => {
     let password = req.body.password
     let nama = req.body.nama
 
-    if (!password && nrp && nama) {
-        res.status(400)
-            .json({
-                message: "Parameter not complete"
-            })
-    }
-    else {
+    if (password && nrp && nama) {
         userRealm.write(() => {
             userRealm.create('User', {
                 nrp: nrp,
@@ -49,6 +44,13 @@ app.post('/tambahmahasiswa', (req, res) => {
         res.status(201)
             .json({
                 message: "User created"
+            })
+
+    }
+    else {
+        res.status(400)
+            .json({
+                message: "Parameter not complete"
             })
     }
 })
@@ -68,13 +70,7 @@ app.post('/tambahmatkul', (req, res) => {
     let namaMatkul = req.body.namamatkul
     let kelas = req.body.kelas
 
-    if (!idMatkul && namaMatkul && kelas) {
-        res.status(400)
-            .json({
-                message: "Parameter not complete"
-            })
-    }
-    else {
+    if (idMatkul && namaMatkul && kelas) {
         matkulRealm.write(() => {
             matkulRealm.create('Matkul', {
                 idMatkul: idMatkul,
@@ -88,6 +84,12 @@ app.post('/tambahmatkul', (req, res) => {
                 message: "Matkul created"
             })
     }
+    else {
+        res.status(400)
+            .json({
+                message: "Parameter not complete or key is wrong"
+            })
+    }
 })
 
 app.post('/tambahjadwal', (req, res) => {
@@ -97,26 +99,34 @@ app.post('/tambahjadwal', (req, res) => {
     let jamMasuk = req.body.jammasuk
     let jamSelesai = req.body.jamselesai
 
-    if (!idMatkul && pertemuanKe && ruang && jamMasuk && jamSelesai) {
+    if (idMatkul && pertemuanKe && ruang && jamMasuk && jamSelesai) {
+        if (isIdMatkulExists(idMatkul)) {
+            jadwalRealm.write(() => {
+                jadwalRealm.create('Jadwal', {
+                    idMatkul: idMatkul,
+                    pertemuanKe: pertemuanKe,
+                    ruang: ruang,
+                    jamMasuk: jamMasuk,
+                    jamSelesai: jamSelesai
+                })
+            })
+
+            res.status(201)
+                .json({
+                    message: "Jadwal created"
+                })
+        }
+        else {
+            res.status(400)
+                .json({
+                    message: "Mata kuliah with this ID not exists"
+                })
+        }
+    }
+    else {
         res.status(400)
             .json({
                 message: "Parameter not complete"
-            })
-    }
-    else {
-        jadwalRealm.write(() => {
-            jadwalRealm.create('Jadwal', {
-                idMatkul: idMatkul,
-                pertemuanKe: pertemuanKe,
-                ruang: ruang,
-                jamMasuk: jamMasuk,
-                jamSelesai: jamSelesai
-            })
-        })
-
-        res.status(201)
-            .json({
-                message: "Jadwal created"
             })
     }
 
@@ -167,3 +177,21 @@ app.get('/delete', (req, res) => {
 app.listen(3001, () => {
     console.log("API Server started")
 })
+
+function parseDate(s) {
+    let tgl = moment(s)
+    return tgl.utc().format('HH:mm:ss')
+}
+
+function isIdMatkulExists(id) {
+    let matkul = matkulRealm.objects('Matkul').filtered(
+        'idMatkul = "' + id + '"'
+    )
+
+    if (matkul.length == 0) {
+        return false
+    }
+    else {
+        return true
+    }
+}
