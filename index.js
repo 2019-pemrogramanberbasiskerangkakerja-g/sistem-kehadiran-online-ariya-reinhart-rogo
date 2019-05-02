@@ -3,8 +3,8 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const session = require('express-session')
-const realm = require('realm')
 const agent = require('superagent')
+const realm = require('realm')
 const app = express()
 
 let Users = []
@@ -20,20 +20,6 @@ app.use(
         secret: "user session"
     })
 )
-
-let UserSchema = {
-    name: 'User',
-    properties: {
-        username: 'string',
-        password: 'string'
-    }
-}
-
-let userRealm = new Realm({
-    path: 'user.realm',
-    schema: [UserSchema]
-})
-
 
 app.set('view engine', 'ejs')
 
