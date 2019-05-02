@@ -3,8 +3,7 @@ module.exports = {
         name: 'Matkul',
         properties: {
             idMatkul: 'string',
-            namaMatkul: 'string',
-            kelas: 'string'
+            namaMatkul: 'string'
         }
     }
 };
