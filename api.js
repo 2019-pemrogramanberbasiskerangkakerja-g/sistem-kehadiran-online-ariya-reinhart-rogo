@@ -67,6 +67,27 @@ app.post('/tambahmatkul', (req, res) => {
     let idMatkul = req.body.idmatkul
     let namaMatkul = req.body.namamatkul
     let kelas = req.body.kelas
+
+    if (!idMatkul && namaMatkul && kelas) {
+        res.status(400)
+            .json({
+                message: "Parameter not complete"
+            })
+    }
+    else {
+        matkulRealm.write(() => {
+            matkulRealm.create('Matkul', {
+                idMatkul: idMatkul,
+                namaMatkul: namaMatkul,
+                kelas: kelas,
+            })
+        })
+
+        res.status(201)
+            .json({
+                message: "Matkul created"
+            })
+    }
 })
 
 app.post('/tambahjadwal', (req, res) => {
@@ -76,6 +97,41 @@ app.post('/tambahjadwal', (req, res) => {
     let jamMasuk = req.body.jammasuk
     let jamSelesai = req.body.jamselesai
 
+    if (!idMatkul && pertemuanKe && ruang && jamMasuk && jamSelesai) {
+        res.status(400)
+            .json({
+                message: "Parameter not complete"
+            })
+    }
+    else {
+        jadwalRealm.write(() => {
+            jadwalRealm.create('Jadwal', {
+                idMatkul: idMatkul,
+                pertemuanKe: pertemuanKe,
+                ruang: ruang,
+                jamMasuk: jamMasuk,
+                jamSelesai: jamSelesai
+            })
+        })
+
+        res.status(201)
+            .json({
+                message: "Jadwal created"
+            })
+    }
+
+})
+
+app.get('/', (req, res) => {
+    let user = userRealm.objects('User')
+    let matkul = matkulRealm.objects('Matkul')
+    let jadwal = jadwalRealm.objects('Jadwal')
+
+    res.json({
+        user: user,
+        matkul: matkul,
+        jadwal: jadwal
+    })
 })
 
 app.get('/rekap/:idmatakuliah/:pertemuanke', (req, res) => {
