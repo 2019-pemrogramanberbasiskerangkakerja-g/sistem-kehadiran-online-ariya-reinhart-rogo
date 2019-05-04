@@ -29,17 +29,48 @@ let UserSchema = {
     }
 }
 
+let KelasSchema = {
+    name: 'Kelas',
+    properties: {
+        kelasname: 'string',
+        dosen:'string'
+    }
+}
+
+let PertemuanSchema = {
+    name: 'Pertemuan',
+    properties: {
+        pertemuankey:'string',
+        pertemuan:'int',
+        kelasname: 'string'
+    }
+}
+
 let userRealm = new Realm({
     path: 'user.realm',
     schema: [UserSchema]
 })
 
+let kelasRealm = new Realm({
+    path: 'kelas.realm',
+    schema: [KelasSchema]
+})
+
+let pertemuanRealm = new Realm({
+    path: 'pertemuan.realm',
+    schema: [PertemuanSchema]
+})
 
 app.set('view engine', 'ejs')
 
 app.get('/', checkSignIn, (req, res) => {
     console.log(Users)
     res.render('index.ejs', { username: req.session.user.username })
+})
+
+app.get('/kelas', checkSignIn, (req, res) => {
+    console.log(Kelas)
+    res.render('index.ejs', { username: req.session.kelas.kelasname })
 })
 
 app.get('/login', (req, res) => {
