@@ -308,8 +308,8 @@ app.get('/delete', (req, res) => {
 })
 
 app.post('/user', (req, res) => {
-    let nrp = req.params.nrp
-    let password = req.params.password
+    let nrp = req.body.nrp
+    let password = req.body.password
 
     let user = userRealm.objects('User').filtered(
         'nrp = "' + nrp + '"' + ' AND ' + 'password = "' + password + '"'
