@@ -21,7 +21,7 @@
     	<td><%= matkul[i].idMatkul %> - </td>
     	<td><%= matkul[i].namaMatkul %></td>
     	<td>
-	    	<form action="/tambahpeserta" method="post" action="URL_OF_REST">
+	    	<form action="/tambahpeserta" method="post">
 			    <input type="hidden" name="idmatkul" id="idmatkul" value=<%= matkul[i].idMatkul %>>
 			    <input type="hidden" name="smt" id="smt" value="8">
 			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
@@ -30,4 +30,52 @@
 		</td>
    	</tr>
 <% } %>
+</table>
+
+<h2> Absen</h2>
+<table>
+   <tr>
+    	<td>
+	    	<form action="/absen" method="post">
+			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+			    <input type="hidden" name="ruang" id="ruang" value='IF-101'>
+	    		<button type="submit">IF-101</button>
+			</form>
+		</td>
+		<td>
+	    	<form action="/absen" method="post">
+			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+			    <input type="hidden" name="ruang" id="ruang" value='IF-102'>
+	    		<button type="submit">IF-102</button>
+			</form>
+		</td>
+		<td>
+	    	<form action="/absen" method="post">
+			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+			    <input type="hidden" name="ruang" id="ruang" value='IF-103'>
+	    		<button type="submit">IF-103</button>
+			</form>
+		</td>
+		<td>
+	    	<form action="/absen" method="post">
+			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+			    <input type="hidden" name="ruang" id="ruang" value='IF-104'>
+	    		<button type="submit">IF-104</button>
+			</form>
+		</td>
+		<td>
+	    	<form action="/absen" method="post">
+			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+			    <input type="hidden" name="ruang" id="ruang" value='LP1'>
+	    		<button type="submit">LP1</button>
+			</form>
+		</td>
+		<td>
+	    	<form action="/absen" method="post">
+			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+			    <input type="hidden" name="ruang" id="ruang" value='LP2'>
+	    		<button type="submit">LP2</button>
+			</form>
+		</td>
+   	</tr>
 </table>

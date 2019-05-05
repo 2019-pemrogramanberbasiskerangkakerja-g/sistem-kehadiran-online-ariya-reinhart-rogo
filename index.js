@@ -92,6 +92,29 @@ app.post('/login', (req, res) => {
         )
 })
 
+app.post('/absen', (req, res) => {
+    let ruang = req.body ['ruang']
+    let nrp = req.body['nrp']
+
+    agent.post('https://pbkk-online-absen-api.herokuapp.com/absen')
+        .send({
+            ruang: ruang,
+            nrp: nrp
+        })
+        .then(
+            (response) => {
+                if (response.status == 200) {
+                    res.redirect('/')
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+            }
+        )
+})
+
 app.get('/tambahmatkul', (req, res) => {
     res.render('tambahmatkul.ejs')
 })
@@ -122,13 +145,13 @@ app.post('/tambahmatkul', (req, res) => {
 })
 
 app.post('/tambahpeserta', (req, res) => {
-    let idmatkul = req.body['idmatkul']
+    let idmatakuliah = req.body['idmatkul']
     let smt = req.body['smt']
     let nrp = req.body['nrp']
 
     agent.post('https://pbkk-online-absen-api.herokuapp.com/tambahpeserta')
         .send({
-                idmatkul: idmatkul,
+                idmatakuliah: idmatakuliah,
                 smt: smt,
                 nrp: nrp
             })
@@ -167,3 +190,4 @@ function checkSignIn(req, res, next) {
         res.redirect('/login')
     }
 }
+//https://pbkk-online-absen-api.herokuapp.com
