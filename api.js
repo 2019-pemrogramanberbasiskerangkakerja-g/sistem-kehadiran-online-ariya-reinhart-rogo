@@ -316,12 +316,12 @@ app.post('/user', (req, res) => {
     )
 
     if (user.length == 0) {
-        res.statusCode(404).json({
+        res.status(404).json({
             message: "User not found"
         })
     }
     else {
-        res.statusCode(200).json({
+        res.status(200).json({
             message: "User found"
         })
     }
