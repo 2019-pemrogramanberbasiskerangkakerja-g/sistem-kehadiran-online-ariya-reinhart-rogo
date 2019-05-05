@@ -25,7 +25,12 @@ app.set('view engine', 'ejs')
 
 app.get('/', checkSignIn, (req, res) => {
     console.log(Users)
-    res.render('index.ejs', { nrp: req.session.user.nrp })
+    agent.get('localhost:3001/')
+        .then(
+                (response) => {            
+                    res.render('index.ejs', { nrp: req.session.user.nrp, matkul: response.body.matkul, peserta: response.body.peserta})                  
+                }
+            )
 })
 
 app.get('/login', (req, res) => {
@@ -76,6 +81,31 @@ app.post('/login', (req, res) => {
                     let newUser = { nrp: nrp, password: password };
                     Users.push(newUser);
                     req.session.user = newUser;
+                    res.redirect('/')
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+            }
+        )
+})
+
+app.post('/tambahpeserta', (req, res) => {
+    let idmatkul = req.body['idmatkul']
+    let smt = req.body['smt']
+    let nrp = req.body['nrp']
+
+    agent.post('localhost:3001/tambahpeserta')
+        .send({
+                idmatkul: idmatkul,
+                smt: smt,
+                nrp: nrp
+            })
+        .then(
+            (response) => {
+                if (response.status == 201) {
                     res.redirect('/')
                 }
             }

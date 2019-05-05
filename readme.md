@@ -3,7 +3,7 @@
 
 ### Anggota
 + Arya Wildan Devanto : 5115100123
-+ Reinhart Ceisar : 5115100132
++ Reinhart Caesar : 5115100132
 + Rogo Jagad Alit : 5115100168
 
 ### About

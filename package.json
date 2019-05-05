@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "nodemon api.js"
   },
-  "author": "Ariya Wildan, Reinhart Ceisar, Rogo Jagad Alit",
+  "author": "Ariya Wildan, Reinhart Caesar, Rogo Jagad Alit",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",

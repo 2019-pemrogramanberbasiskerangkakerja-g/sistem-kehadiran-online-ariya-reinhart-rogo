@@ -1,2 +1,33 @@
 <h1>Ini halaman utama </h1>
 <h2>Halo <%= nrp %></h2>
+
+<h2> Kelas terdaftar</h2>
+<% for(var i=0; i < Object.keys(peserta).length; i++) { %>
+	<% if(peserta[i].nrp==nrp){ %>
+		<tr>
+	    	<td><%= peserta[i].idMatkul %> - </td>
+	    	<td><%= peserta[i].semester %></td>
+			<br>
+	   	</tr>
+	<% } %>
+<% } %>
+
+<br>
+
+<h2> List semua kelas</h2>
+<table>
+<% for(var i=0; i < Object.keys(matkul).length; i++) { %>
+   <tr>
+    	<td><%= matkul[i].idMatkul %> - </td>
+    	<td><%= matkul[i].namaMatkul %></td>
+    	<td>
+	    	<form action="/tambahpeserta" method="post" action="URL_OF_REST">
+			    <input type="hidden" name="idmatkul" id="idmatkul" value=<%= matkul[i].idMatkul %>>
+			    <input type="hidden" name="smt" id="smt" value="8">
+			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+	    		<button type="submit">Daftar</button>
+			</form>
+		</td>
+   	</tr>
+<% } %>
+</table>

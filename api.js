@@ -110,13 +110,13 @@ app.post('/absen', (req, res) => {
     }
 })
 
-app.post('/tambahpeserta/:idmatakuliah/:kelas/:smt/:nrp', (req, res) => {
-    let kelas = req.params.kelas
-    let idMatkul = req.params.idmatakuliah + "-" + kelas
-    let nrp = req.params.nrp
-    let smt = req.params.smt
+app.post('/tambahpeserta', (req, res) => {
+    // let kelas = req.params.kelas
+    let idMatkul = req.body.idmatkul
+    let nrp = req.body.nrp
+    let smt = req.body.smt
     console.log(idMatkul)
-    if (idMatkul && nrp && kelas && smt) {
+    if (idMatkul && nrp && smt) {
         if (isIdMatkulExists(idMatkul) && isNrpExists(nrp)) {
 
             pesertaRealm.write(() => {
