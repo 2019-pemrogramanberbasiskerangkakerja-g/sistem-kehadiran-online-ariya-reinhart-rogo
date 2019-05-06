@@ -86,7 +86,7 @@ app.post('/absen', (req, res) => {
                     
                     idMatkul = jadwal[i].idMatkul;
                     pertemuanKe = jadwal[i].pertemuanKe.toString();
-                    console.log("Dapet jancok")
+                    console.log("Dapet")
                     console.log(jamMasuk)
                     console.log(jamSelesai)
 
@@ -95,7 +95,7 @@ app.post('/absen', (req, res) => {
                 else if (todayTime.getHours() == jamSelesai.getHours() && todayTime.getMinutes() <= jamSelesai.getMinutes()) {
                     idMatkul = jadwal[i].idMatkul;
                     pertemuanKe = jadwal[i].pertemuanKe.toString();
-                    console.log("Dapet jancok")
+                    console.log("Dapet")
                     console.log(jamMasuk)
                     console.log(jamSelesai)
 
