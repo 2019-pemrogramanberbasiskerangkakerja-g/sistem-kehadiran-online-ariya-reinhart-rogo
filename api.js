@@ -64,13 +64,15 @@ app.post('/tambahmahasiswa', (req, res) => {
 app.post('/absen', (req, res) => {
     let ruang = req.body.ruang
     let nrp = req.body.nrp
+    let todayTime = req.body.time
 
-    if (ruang && nrp) {
+    console.log(new Date(todayTime).getHours())
+
+    if (ruang && nrp && todayTime) {
         let jadwal = jadwalRealm.objects('Jadwal').filtered(
             'ruang = "' + ruang + '"'
         )
 
-        let todayTime = new Date()
         let idMatkul = ""
         let pertemuanKe = "1"
 
@@ -94,13 +96,20 @@ app.post('/absen', (req, res) => {
             'nrp = "' + nrp + '"' + ' AND ' + 'idMatkul = "' + idMatkul + '"'
         )
 
-        pesertaRealm.write(() => {
-            peserta[0]["p" + pertemuanKe] = 1
-        })
+        if (peserta.length > 0) {
+            console.log(peserta.length)
 
-        console.log(peserta[0])
+            pesertaRealm.write(() => {
+                peserta[0]["p" + pertemuanKe] = 1
+            })
 
-        res.status(200).json({ message: "Success" })
+            console.log(peserta[0])
+
+            res.status(200).json({ message: "Success" })
+        }
+        else {
+            res.status(400).json({ message: "Presence failed" })
+        }
     }
     else {
         res.status(400)
