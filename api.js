@@ -64,9 +64,9 @@ app.post('/tambahmahasiswa', (req, res) => {
 app.post('/absen', (req, res) => {
     let ruang = req.body.ruang
     let nrp = req.body.nrp
-    let todayTime = req.body.time
-
-    console.log(new Date(todayTime).getHours())
+    let todayTime = new Date(req.body.time)
+    console.log("Waktu absen")
+    console.log(todayTime)
 
     if (ruang && nrp && todayTime) {
         let jadwal = jadwalRealm.objects('Jadwal').filtered(
@@ -80,14 +80,26 @@ app.post('/absen', (req, res) => {
             let jamMasuk = jadwal[i].jamMasuk
             let jamSelesai = jadwal[i].jamSelesai
 
-            if (todayTime.getDate() == jamMasuk.getDate() && todayTime.getMonth() == jamMasuk.getMonth()) {
-                if (todayTime.getHours() >= jamMasuk.getHours() && todayTime.getHours() <= jamSelesai.getHours()) {
-                    if (todayTime.getMinutes() <= jamSelesai.getMinutes()) {
-                        idMatkul = jadwal[i].idMatkul;
-                        pertemuanKe = jadwal[i].pertemuanKe.toString();
 
-                        break;
-                    }
+            if (todayTime.getDate() == jamMasuk.getDate() && todayTime.getMonth() == jamMasuk.getMonth()) {
+                if (todayTime.getHours() >= jamMasuk.getHours() && todayTime.getHours() < jamSelesai.getHours()) {
+                    
+                    idMatkul = jadwal[i].idMatkul;
+                    pertemuanKe = jadwal[i].pertemuanKe.toString();
+                    console.log("Dapet jancok")
+                    console.log(jamMasuk)
+                    console.log(jamSelesai)
+
+                    break;
+                }
+                else if (todayTime.getHours() == jamSelesai.getHours() && todayTime.getMinutes() <= jamSelesai.getMinutes()) {
+                    idMatkul = jadwal[i].idMatkul;
+                    pertemuanKe = jadwal[i].pertemuanKe.toString();
+                    console.log("Dapet jancok")
+                    console.log(jamMasuk)
+                    console.log(jamSelesai)
+
+                    break;
                 }
             }
         }
@@ -95,7 +107,8 @@ app.post('/absen', (req, res) => {
         let peserta = pesertaRealm.objects('Peserta').filtered(
             'nrp = "' + nrp + '"' + ' AND ' + 'idMatkul = "' + idMatkul + '"'
         )
-
+        console.log(idMatkul)
+        console.log(peserta)
         if (peserta.length > 0) {
             console.log(peserta.length)
 
@@ -104,6 +117,7 @@ app.post('/absen', (req, res) => {
             })
 
             console.log(peserta[0])
+
 
             res.status(200).json({ message: "Success" })
         }

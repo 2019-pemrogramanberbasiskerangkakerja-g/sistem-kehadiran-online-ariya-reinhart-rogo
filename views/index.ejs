@@ -39,43 +39,56 @@
 	    	<form action="/absen" method="post">
 			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
 			    <input type="hidden" name="ruang" id="ruang" value='IF-101'>
-	    		<button type="submit">IF-101</button>
+			    <input type="hidden" name="time" id="time">
+	    		<button type="submit" onclick="changetime()">IF-101</button>
 			</form>
 		</td>
 		<td>
 	    	<form action="/absen" method="post">
 			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
 			    <input type="hidden" name="ruang" id="ruang" value='IF-102'>
-	    		<button type="submit">IF-102</button>
+	    		<input type="hidden" name="time" id="time">
+	    		<button type="submit" onclick="changetime()">IF-102</button>
 			</form>
 		</td>
 		<td>
 	    	<form action="/absen" method="post">
 			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
 			    <input type="hidden" name="ruang" id="ruang" value='IF-103'>
-	    		<button type="submit">IF-103</button>
+	    		<input type="hidden" name="time" id="time">
+	    		<button type="submit" onclick="changetime()">IF-103</button>
 			</form>
 		</td>
 		<td>
 	    	<form action="/absen" method="post">
 			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
 			    <input type="hidden" name="ruang" id="ruang" value='IF-104'>
-	    		<button type="submit">IF-104</button>
+	    		<input type="hidden" name="time" id="time">
+	    		<button type="submit" onclick="changetime()">IF-104</button>
 			</form>
 		</td>
 		<td>
 	    	<form action="/absen" method="post">
 			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
 			    <input type="hidden" name="ruang" id="ruang" value='LP1'>
-	    		<button type="submit">LP1</button>
+	    		<input type="hidden" name="time" id="time">
+	    		<button type="submit" onclick="changetime()">LP1</button>
 			</form>
 		</td>
 		<td>
 	    	<form action="/absen" method="post">
 			    <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
 			    <input type="hidden" name="ruang" id="ruang" value='LP2'>
-	    		<button type="submit">LP2</button>
+	    		<input type="hidden" name="time" id="time">
+	    		<button onclick="changetime()">LP2</button>
 			</form>
 		</td>
    	</tr>
 </table>
+
+
+<script>
+    function changetime(){
+    	document.getElementById('time').value = new Date();
+    }
+</script>

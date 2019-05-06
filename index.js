@@ -96,11 +96,13 @@ app.post('/login', (req, res) => {
 app.post('/absen', (req, res) => {
     let ruang = req.body['ruang']
     let nrp = req.body['nrp']
+    let time = req.body['time']
 
     agent.post(apiHost + '/absen')
         .send({
             ruang: ruang,
-            nrp: nrp
+            nrp: nrp,
+            time: time
         })
         .then(
             (response) => {
@@ -146,13 +148,13 @@ app.post('/tambahmatkul', (req, res) => {
 })
 
 app.post('/tambahpeserta', (req, res) => {
-    let idmatakuliah = req.body['idmatkul']
+    let idmatkul = req.body['idmatkul']
     let smt = req.body['smt']
     let nrp = req.body['nrp']
 
     agent.post(apiHost + '/tambahpeserta')
         .send({
-            idmatakuliah: idmatakuliah,
+            idmatkul: idmatkul,
             smt: smt,
             nrp: nrp
         })
