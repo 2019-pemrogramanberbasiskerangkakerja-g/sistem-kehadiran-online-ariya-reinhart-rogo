@@ -118,7 +118,6 @@ app.post('/absen', (req, res) => {
 
             console.log(peserta[0])
 
-
             res.status(200).json({ message: "Success" })
         }
         else {
@@ -134,7 +133,6 @@ app.post('/absen', (req, res) => {
 })
 
 app.post('/tambahpeserta', (req, res) => {
-    // let kelas = req.params.kelas
     let idMatkul = req.body.idmatkul
     let nrp = req.body.nrp
     let smt = req.body.smt
