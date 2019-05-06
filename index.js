@@ -6,6 +6,7 @@ const session = require('express-session')
 const agent = require('superagent')
 const realm = require('realm')
 const app = express()
+const apiHost = 'localhost:3001'
 
 let Users = []
 
@@ -25,12 +26,12 @@ app.set('view engine', 'ejs')
 
 app.get('/', checkSignIn, (req, res) => {
     console.log(Users)
-    agent.get('https://pbkk-online-absen-api.herokuapp.com/')
+    agent.get(apiHost)
         .then(
-                (response) => {            
-                    res.render('index.ejs', { nrp: req.session.user.nrp, matkul: response.body.matkul, peserta: response.body.peserta})                  
-                }
-            )
+            (response) => {
+                res.render('index.ejs', { nrp: req.session.user.nrp, matkul: response.body.matkul, peserta: response.body.peserta })
+            }
+        )
 })
 
 app.get('/login', (req, res) => {
@@ -46,7 +47,7 @@ app.post('/register', (req, res) => {
     let nama = req.body['nama']
     let password = req.body['password']
 
-    agent.post('https://pbkk-online-absen-api.herokuapp.com/tambahmahasiswa')
+    agent.post(apiHost + '/tambahmahasiswa')
         .send({
             nrp: nrp,
             nama: nama,
@@ -70,7 +71,7 @@ app.post('/login', (req, res) => {
     let nrp = req.body['nrp']
     let password = req.body['password']
 
-    agent.post('https://pbkk-online-absen-api.herokuapp.com/user')
+    agent.post(apiHost + '/user')
         .send({
             nrp: nrp,
             password: password
@@ -93,10 +94,10 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/absen', (req, res) => {
-    let ruang = req.body ['ruang']
+    let ruang = req.body['ruang']
     let nrp = req.body['nrp']
 
-    agent.post('https://pbkk-online-absen-api.herokuapp.com/absen')
+    agent.post(apiHost + '/absen')
         .send({
             ruang: ruang,
             nrp: nrp
@@ -124,7 +125,7 @@ app.post('/tambahmatkul', (req, res) => {
     let namaMatkul = req.body['namaMatkul']
     let kelas = req.body['kelas']
 
-    agent.post('https://pbkk-online-absen-api.herokuapp.com/tambahmatkul')
+    agent.post(apiHost + '/tambahmatkul')
         .send({
             idMatkul: idMatkul,
             namaMatkul: namaMatkul,
@@ -149,12 +150,12 @@ app.post('/tambahpeserta', (req, res) => {
     let smt = req.body['smt']
     let nrp = req.body['nrp']
 
-    agent.post('https://pbkk-online-absen-api.herokuapp.com/tambahpeserta')
+    agent.post(apiHost + '/tambahpeserta')
         .send({
-                idmatakuliah: idmatakuliah,
-                smt: smt,
-                nrp: nrp
-            })
+            idmatakuliah: idmatakuliah,
+            smt: smt,
+            nrp: nrp
+        })
         .then(
             (response) => {
                 if (response.status == 201) {
