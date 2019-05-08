@@ -6,7 +6,7 @@ const session = require('express-session')
 const agent = require('superagent')
 const realm = require('realm')
 const app = express()
-const apiHost = 'localhost:3001'
+const apiHost = 'https://pbkk-online-absen-api.herokuapp.com'
 
 let Users = []
 

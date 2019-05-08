@@ -27,7 +27,7 @@ Setiap akan / sudah melakukan request ke API:
 1. POST `/tambahmahasiswa`
 Untuk menambah data mahasiswa
 
-2. POST `/absen` - UNTESTED
+2. POST `/absen`
 Untuk melakukan absen
 
 3. POST `/tambahpeserta/:idmatakuliah/:kelas/:smt/:nrp`
