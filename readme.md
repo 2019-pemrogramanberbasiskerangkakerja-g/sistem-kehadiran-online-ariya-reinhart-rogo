@@ -30,7 +30,7 @@ Untuk menambah data mahasiswa
 2. POST `/absen`
 Untuk melakukan absen
 
-3. POST `/tambahpeserta/:idmatakuliah/:kelas/:smt/:nrp`
+3. POST `/tambahpeserta`
 Untuk menambah peserta ke mata kuliah dan kelas tertentu
 
 4. POST `/tambahmatkul`
