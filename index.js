@@ -122,31 +122,6 @@ app.get('/tambahmatkul', (req, res) => {
     res.render('tambahmatkul.ejs')
 })
 
-app.post('/tambahmatkul', (req, res) => {
-    let idMatkul = req.body['idMatkul']
-    let namaMatkul = req.body['namaMatkul']
-    let kelas = req.body['kelas']
-
-    agent.post(apiHost + '/tambahmatkul')
-        .send({
-            idMatkul: idMatkul,
-            namaMatkul: namaMatkul,
-            kelas: kelas
-        })
-        .then(
-            (response) => {
-                if (response.status == 201) {
-                    res.redirect('/tambahmatkul')
-                }
-            }
-        )
-        .catch(
-            (err) => {
-                console.log(err)
-            }
-        )
-})
-
 app.post('/tambahpeserta', (req, res) => {
     let idmatkul = req.body['idmatkul']
     let smt = req.body['smt']
@@ -170,15 +145,6 @@ app.post('/tambahpeserta', (req, res) => {
                 console.log(err)
             }
         )
-})
-
-app.get('/delete', (req, res) => {
-    userRealm.write(() => {
-        let users = userRealm.objects('User')
-        userRealm.deleteAll()
-    })
-
-    res.send("Deleted")
 })
 
 app.listen(3000, () => {
