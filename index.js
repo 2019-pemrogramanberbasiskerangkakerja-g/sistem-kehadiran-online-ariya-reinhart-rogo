@@ -7,9 +7,11 @@ const agent = require('superagent')
 const realm = require('realm')
 const app = express()
 const apiHost = 'https://pbkk-online-absen-api.herokuapp.com'
+var path = require("path");
 
 let Users = []
-
+// app.use('/static', express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({
@@ -88,7 +90,8 @@ app.post('/login', (req, res) => {
         )
         .catch(
             (err) => {
-                console.log(err)
+                // console.log(err)
+                res.redirect('/login');
             }
         )
 })
