@@ -6,7 +6,10 @@ const session = require('express-session')
 const agent = require('superagent')
 const realm = require('realm')
 const app = express()
-const apiHost = 'https://pbkk-online-absen-api.herokuapp.com'
+var request = require('request');
+
+// const apiHost = 'https://pbkk-online-absen-api.herokuapp.com'
+const apiHost = 'http://localhost:3001'
 var path = require("path");
 
 let Users = []
@@ -31,24 +34,39 @@ app.get('/', checkSignIn, (req, res) => {
     agent.get(apiHost)
         .then(
             (response) => {
-                res.render('index.ejs', { nrp: req.session.user.nrp, matkul: response.body.matkul, peserta: response.body.peserta })
+                request(apiHost, function (error, response1, body) {
+                    if (!error && response1.statusCode == 200) {
+                        var info = JSON.parse(body)
+                        var size = Object.keys(info.user).length
+                        var i;
+                        var nama;
+                        for (i = 0; i < size; i++) {
+                            if (info.user[i].nrp == req.session.user.nrp) {
+                                nama = info.user[i].nama;
+                                console.log(nama);
+                                break;
+                            }
+
+                        }
+                        console.log(response.body.matkul)
+                        res.render('index.ejs', { nrp: req.session.user.nrp, matkul: response.body.matkul, peserta: response.body.peserta, nama: nama })
+                    }
+                })
             }
         )
 })
 
 app.get('/login', (req, res) => {
-    if (req.session.error!=null)
-    {
+    if (req.session.error != null) {
         // console.log(req.session.error);
         req.session.error = null;
-        res.render('login.ejs', { message:"hai"})
-       
+        res.render('login.ejs', { message: "hai" })
+
     }
-    else
-    {
-        res.render('login.ejs',{ message:""})
+    else {
+        res.render('login.ejs', { message: "" })
     }
-    
+
 })
 
 app.get('/register', (req, res) => {
@@ -83,7 +101,7 @@ app.post('/register', (req, res) => {
 app.post('/login', (req, res) => {
     let nrp = req.body['nrp']
     let password = req.body['password']
-
+    console.log(nrp)
     agent.post(apiHost + '/user')
         .send({
             nrp: nrp,
@@ -91,6 +109,7 @@ app.post('/login', (req, res) => {
         })
         .then(
             (response) => {
+                console.log(response.status)
                 if (response.status == 200) {
                     let newUser = { nrp: nrp, password: password };
                     Users.push(newUser);
@@ -101,7 +120,7 @@ app.post('/login', (req, res) => {
         )
         .catch(
             (err) => {
-                // console.log(err)
+                console.log(err)
                 req.session.error = 'Incorrect username or password';
                 res.redirect('/login');
             }
@@ -133,11 +152,111 @@ app.post('/absen', (req, res) => {
             }
         )
 })
+app.get('/jadwal', (req, res) => {
+    if (req.session.user == null) {
+        req.session.error = "Login";
+        res.redirect('/login');
+    }
+    else {
+        request(apiHost, function (error, response1, body) {
+            if (!error && response1.statusCode == 200) {
+                var info = JSON.parse(body)
+                var size = Object.keys(info.user).length
+                var i;
+                var nama;
+                for (i = 0; i < size; i++) {
+                    if (info.user[i].nrp == req.session.user.nrp) {
+                        nama = info.user[i].nama;
+                        console.log(nama);
+                        break;
+                    }
+                }
+                res.render('jadwal.ejs', { nrp: req.session.user.nrp, nama: nama })
+            }
+        })
+    }
 
-app.get('/tambahmatkul', (req, res) => {
-    res.render('tambahmatkul.ejs')
 })
 
+app.post('/jadwal', (req, res) => {
+    let id = req.body['idMatkul']
+    let pertemuan = req.body['pertemuan']
+    let kelas = req.body['kelas']
+    let masuk = req.body['masuk']
+    let selesai = req.body['selesai']
+
+
+    agent.post(apiHost + '/tambahjadwal')
+        .send({
+            idmatkul: id,
+            pertemuanke: pertemuan,
+            ruangkelas: kelas,
+            jammasuk: masuk,
+            jamselesai: selesai
+        })
+        .then(
+            (response) => {
+                console.log(response)
+                if (response.status == 201) {
+                    res.render('/jadwal')
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+                res.redirect('/jadwal');
+            }
+        )
+})
+app.get('/tambahmatkul', (req, res) => {
+    if (req.session.user == null) {
+        req.session.error = "Login";
+        res.redirect('/login');
+    }
+    else {
+        request(apiHost, function (error, response1, body) {
+            if (!error && response1.statusCode == 200) {
+                var info = JSON.parse(body)
+                var size = Object.keys(info.user).length
+                var i;
+                var nama;
+                for (i = 0; i < size; i++) {
+                    if (info.user[i].nrp == req.session.user.nrp) {
+                        nama = info.user[i].nama;
+                        console.log(nama);
+                        break;
+                    }
+                }
+                res.render('tambahmatkul.ejs', { nrp: req.session.user.nrp, nama: nama })
+            }
+        })
+    }
+
+})
+app.post('/tambahmatkul', (req, res) => {
+    let idMatkul = req.body['idMatkul']
+    let namaMatkul = req.body['namaMatkul']
+    let kelas = req.body['kelas']
+    agent.post(apiHost + '/tambahmatkul')
+        .send({
+            idmatkul: idMatkul,
+            namamatkul: namaMatkul,
+            kelas: kelas
+        })
+        .then(
+            (response) => {
+                if (response.status == 201) {
+                    res.redirect('/')
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+            }
+        )
+})
 app.post('/tambahpeserta', (req, res) => {
     let idmatkul = req.body['idmatkul']
     let smt = req.body['smt']
