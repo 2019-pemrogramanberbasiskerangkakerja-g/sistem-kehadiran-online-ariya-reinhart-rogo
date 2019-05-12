@@ -37,7 +37,18 @@ app.get('/', checkSignIn, (req, res) => {
 })
 
 app.get('/login', (req, res) => {
-    res.render('login.ejs')
+    if (req.session.error!=null)
+    {
+        // console.log(req.session.error);
+        req.session.error = null;
+        res.render('login.ejs', { message:"hai"})
+       
+    }
+    else
+    {
+        res.render('login.ejs',{ message:""})
+    }
+    
 })
 
 app.get('/register', (req, res) => {
@@ -91,6 +102,7 @@ app.post('/login', (req, res) => {
         .catch(
             (err) => {
                 // console.log(err)
+                req.session.error = 'Incorrect username or password';
                 res.redirect('/login');
             }
         )
@@ -110,6 +122,7 @@ app.post('/absen', (req, res) => {
         .then(
             (response) => {
                 if (response.status == 200) {
+                    req.flash('msg', 'some msg');
                     res.redirect('/')
                 }
             }
