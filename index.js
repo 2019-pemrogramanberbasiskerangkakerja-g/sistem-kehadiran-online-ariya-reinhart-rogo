@@ -131,7 +131,7 @@ app.post('/absen', (req, res) => {
     let ruang = req.body['ruang']
     let nrp = req.body['nrp']
     let time = req.body['time']
-
+    console.log(time)
     agent.post(apiHost + '/absen')
         .send({
             ruang: ruang,
@@ -141,7 +141,7 @@ app.post('/absen', (req, res) => {
         .then(
             (response) => {
                 if (response.status == 200) {
-                    req.flash('msg', 'some msg');
+                    // req.flash('msg', 'some msg');
                     res.redirect('/')
                 }
             }
@@ -184,12 +184,12 @@ app.post('/jadwal', (req, res) => {
     let kelas = req.body['kelas']
     let masuk = req.body['masuk']
     let selesai = req.body['selesai']
-
+    let angka = parseInt(pertemuan, 10)
 
     agent.post(apiHost + '/tambahjadwal')
         .send({
             idmatkul: id,
-            pertemuanke: pertemuan,
+            pertemuanke: angka,
             ruangkelas: kelas,
             jammasuk: masuk,
             jamselesai: selesai
@@ -198,7 +198,7 @@ app.post('/jadwal', (req, res) => {
             (response) => {
                 console.log(response)
                 if (response.status == 201) {
-                    res.render('/jadwal')
+                    res.redirect('/jadwal');
                 }
             }
         )
@@ -281,7 +281,10 @@ app.post('/tambahpeserta', (req, res) => {
             }
         )
 })
-
+app.get('/keluar', (req, res) => {
+    req.session.destroy();
+    res.redirect('/login');
+})
 app.listen(3000, () => {
     console.log("Start")
 })

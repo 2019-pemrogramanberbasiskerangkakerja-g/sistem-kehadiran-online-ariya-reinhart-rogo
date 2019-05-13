@@ -5,6 +5,7 @@ const express = require('express')
 const realm = require('realm')
 const app = express()
 const moment = require('moment')
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 
@@ -65,7 +66,7 @@ app.post('/absen', (req, res) => {
     let ruang = req.body.ruang
     let nrp = req.body.nrp
     let todayTime = new Date(req.body.time)
-
+    console.log(todayTime)
     if (ruang && nrp && todayTime) {
         let jadwal = jadwalRealm.objects('Jadwal').filtered(
             'ruang = "' + ruang + '"'
@@ -79,7 +80,7 @@ app.post('/absen', (req, res) => {
             let jamSelesai = jadwal[i].jamSelesai
             if (todayTime.getDate() == jamMasuk.getDate() && todayTime.getMonth() == jamMasuk.getMonth()) {
                 if (todayTime.getHours() >= jamMasuk.getHours() && todayTime.getHours() < jamSelesai.getHours()) {
-                    
+
                     idMatkul = jadwal[i].idMatkul;
                     pertemuanKe = jadwal[i].pertemuanKe.toString();
                     break;
