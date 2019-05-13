@@ -188,10 +188,11 @@
                   <th scope="col">Kode Kelas</th>
                   <th scope="col">Nama Kelas</th>
                   <th scope="col">Menu</th>
+                  <th scope="col">Rekap</th>
                 </tr>
                 <% for(var i=0; i < Object.keys(matkul).length; i++) { %>
                 <tr>
-                  <td><%= matkul[i].idMatkul %> - </td>
+                  <td><%= matkul[i].idMatkul %></td>
                   <td><%= matkul[i].namaMatkul %></td>
                   <td>
                     <form action="/tambahpeserta" method="post">
@@ -199,6 +200,12 @@
                       <input type="hidden" name="smt" id="smt" value="8">
                       <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
                       <button type="submit">Daftar</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form action="/rekap/" method="post">
+                      <input type="hidden" name="idmatkul" id="idmatkul" value=<%= matkul[i].idMatkul %>>
+                      <button type="submit">Lihat</button>
                     </form>
                   </td>
                 </tr>

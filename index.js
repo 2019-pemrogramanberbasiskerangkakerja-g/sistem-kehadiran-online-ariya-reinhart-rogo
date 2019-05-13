@@ -281,6 +281,24 @@ app.post('/tambahpeserta', (req, res) => {
             }
         )
 })
+app.post('/rekap', (req, res) => {
+    let idmatkul = req.body['idmatkul']
+    agent.get(apiHost + '/rekap/' + idmatkul)
+        .then(
+            (response) => {
+                console.log(response.status)
+                if (response.status == 200) {
+                    console.log(response.body)
+                    res.render('rekapsemeter.ejs', { isi: response.body })
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+            }
+        )
+})
 app.get('/keluar', (req, res) => {
     req.session.destroy();
     res.redirect('/login');
