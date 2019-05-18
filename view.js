@@ -31,9 +31,38 @@ app.set('view engine', 'ejs')
 app.get('/', (req, res) => {
     res.redirect("login");
 })
+app.get('/home', (req, res) => {
+    res.send("home");
+})
+
+app.post('/login', (req, res) => {
+    let nrp = req.body['nrp']
+    let password = req.body['password']
+    console.log(nrp)
+    agent.post(apiHost + '/login')
+        .send({
+            nrp: nrp,
+            password: password
+        })
+        .then(
+            (response) => {
+                console.log(response.status)
+                if (response.status == 200) {
+                    res.redirect("home");
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+                req.session.error = 'Incorrect username or password';
+                res.redirect('/login');
+            }
+        )
+})
 
 app.get('/login', (req, res) => {
-    res.send("hallo");
+    res.render("loginview.ejs");
 })
 
 app.get('/daftar', (req, res) => {
