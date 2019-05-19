@@ -184,6 +184,10 @@ app.post('/jadwal', (req, res) => {
     let kelas = req.body['kelas']
     let masuk = req.body['masuk']
     let selesai = req.body['selesai']
+
+    console.log(masuk)
+    console.log(selesai)
+
     let angka = parseInt(pertemuan, 10)
 
     agent.post(apiHost + '/tambahjadwal')
@@ -196,7 +200,7 @@ app.post('/jadwal', (req, res) => {
         })
         .then(
             (response) => {
-                console.log(response)
+
                 if (response.status == 201) {
                     res.redirect('/jadwal');
                 }
@@ -224,7 +228,7 @@ app.get('/tambahmatkul', (req, res) => {
                 for (i = 0; i < size; i++) {
                     if (info.user[i].nrp == req.session.user.nrp) {
                         nama = info.user[i].nama;
-                        console.log(nama);
+
                         break;
                     }
                 }
@@ -286,7 +290,7 @@ app.post('/rekap', (req, res) => {
     agent.get(apiHost + '/rekap/' + idmatkul)
         .then(
             (response) => {
-                console.log(response.status)
+
                 if (response.status == 200) {
                     console.log(response.body)
                     res.render('rekapsemeter.ejs', { isi: response.body })

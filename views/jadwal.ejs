@@ -14,6 +14,8 @@
   <link href="./assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
   <!-- Argon CSS -->
   <link type="text/css" href="./assets/css/argon.css?v=1.0.0" rel="stylesheet">
+  <link href="./assets/datetimepicker.css" rel="stylesheet">
+  </script>
 </head>
 
 <body>
@@ -175,7 +177,7 @@
         <div class="col-xl-12 mb-12">
           <div class="card shadow">
             <div class="card-header border-0">
-              <form action="jadwal" method="post">
+              <form id="frm-jadwal" action="jadwal" method="post">
                 <label for="namaMatkul"> Id Mata Kuliah</label>
                 <input class="form-control form-control-alternative" type="text" name="idMatkul" id="idMatkul"
                   placeholder="id Matkul">
@@ -184,15 +186,23 @@
                 <input class="form-control form-control-alternative" type="number" name="pertemuan" id="pertemuan"
                   placeholder="Nama Mata Kuliah">
 
-                <label for="namaMatkul" style="margin-top:30px"> Kelas</label>
+                <label for="namaMatkul" style="margin-top:30px">Ruangan Kelas</label>
                 <input class="form-control form-control-alternative" type="text" name="kelas" id="kelas"
                   placeholder="Kelas">
 
-                <label for="namaMatkul" style="margin-top:30px">Jam Masuk</label>
+                <!-- <label for="namaMatkul" style="margin-top:30px">Jam Masuk</label>
                 <input class="form-control form-control-alternative" type="text" name="masuk" id="masuk">
 
                 <label for="namaMatkul" style="margin-top:30px">Jam Selesai</label>
-                <input class="form-control form-control-alternative" type="text" name="selesai" id="selesai">
+                <input class="form-control form-control-alternative" type="text" name="selesai" id="selesai"> -->
+
+                <label for="namaMatkul" style="margin-top:30px">Jam Masuk</label>
+                <div id="picker-mulai"></div>
+                <input type="hidden" id="mulai" name="masuk" value="">
+
+                <label for="namaMatkul" style="margin-top:30px">Jam Masuk</label>
+                <div id="picker-selesai"></div>
+                <input type="hidden" id="selesai" name="selesai" value="">
 
                 <button type="submit" style="margin-top:60px" class="btn btn-primary">Submit</button>
 
@@ -240,6 +250,38 @@
   <script src="./assets/vendor/chart.js/dist/Chart.extension.js"></script>
   <!-- Argon JS -->
   <script src="./assets/js/argon.js?v=1.0.0"></script>
+  <script src="./assets/datetimepicker.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment-with-locales.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#picker-mulai').dateTimePicker();
+      $('#picker-selesai').dateTimePicker();
+      // $('#picker-no-time').dateTimePicker({ showTime: false, dateFormat: 'DD/MM/YYYY' });
+    })
+
+    $('#frm-jadwal').submit((event) => {
+      var tglMulai = $('#picker-mulai').find("span")[0].innerText
+      var jamMulai = $('#picker-mulai').find("span")[1].innerText
+      var tglSelesai = $('#picker-selesai').find("span")[0].innerText
+      var jamSelesai = $('#picker-selesai').find("span")[1].innerText
+
+      var tglMulaiArr = tglMulai.split("-")
+      var jamMulaiArr = jamMulai.split(":")
+
+      var tglSelesaiArr = tglSelesai.split("-")
+      var jamSelesaiArr = jamSelesai.split(":")
+
+      var waktuMulai = new Date(tglMulaiArr[0], 4, tglMulaiArr[2], jamMulaiArr[0], jamMulaiArr[1], 0)
+      var waktuSelesai = new Date(tglSelesaiArr[0], 4, tglSelesaiArr[2], jamSelesaiArr[0], jamSelesaiArr[1], 0)
+
+      $('#mulai').val(waktuMulai)
+      $('#selesai').val(waktuSelesai)
+
+      console.log($('#mulai').val())
+      console.log($('#selesai').val())
+    })
+  </script>
 
 </body>
 
