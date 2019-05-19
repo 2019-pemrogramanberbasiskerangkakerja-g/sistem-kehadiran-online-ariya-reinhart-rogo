@@ -65,9 +65,21 @@ app.post('/tambahmahasiswa', (req, res) => {
 app.post('/absen', (req, res) => {
     let ruang = req.body.ruang
     let nrp = req.body.nrp
-    let todayTime = new Date(req.body.time)
+    let time = new Date(req.body.time)
+
+    let todayTime = new Date(
+        Date.UTC(
+            time.getFullYear(),
+            time.getMonth(),
+            time.getDate(),
+            time.getHours(),
+            time.getMinutes(),
+            0
+        )
+    )
+
     console.log(todayTime)
-    if (ruang && nrp && todayTime) {
+    if (ruang && nrp && time) {
         let jadwal = jadwalRealm.objects('Jadwal').filtered(
             'ruang = "' + ruang + '"'
         )
@@ -369,3 +381,16 @@ function isNrpExists(nrp) {
         return true
     }
 }
+
+// function toGMT(time) {
+//     return new Date(
+//         Date.UTC(
+//             time.getFullYear,
+//             time.getMonth(),
+//             time.getDate(),
+//             time.getHours(),
+//             time.getMinutes(),
+//             0
+//         )
+//     )
+// }
