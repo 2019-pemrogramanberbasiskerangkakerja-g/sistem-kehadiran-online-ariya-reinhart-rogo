@@ -87,6 +87,23 @@ app.get('/daftar', (req, res) => {
     res.render('daftarview.ejs');
 })
 
+app.post('/rekapsemester', (req, res) => {
+    let idnya = req.body['idMatkul']
+    agent.get(apiHost + '/rekappersemester/'+idnya)
+        .then(
+            (response) => {
+                if (response.status == 200) {
+                    res.render("rekapsemesterview.ejs",{nrp : req.session.nrp, nama : req.session.nama,kirim:response.body})
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+            }
+        )
+})
+
 app.get('/tambahmatkul', (req, res) => {
     res.render('tambahmatkulview.ejs',{nrp : req.session.nrp, nama : req.session.nama});
 })

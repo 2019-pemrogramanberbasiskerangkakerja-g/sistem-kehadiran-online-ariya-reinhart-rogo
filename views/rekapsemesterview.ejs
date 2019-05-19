@@ -178,17 +178,31 @@
               <div class="row align-items-center">
                 <div class="col">
                   <h3 class="mb-0">Rekap Kelas Persemester</h3>
-                  <form action="rekapsemester" style="margin-top:50px;" method="post">
-                    <label for="namaMatkul"> Id Mata Kuliah</label>
-                    <input class="form-control form-control-alternative" type="text" name="idMatkul" id="idMatkul"
-                      placeholder="id Matkul">
-                    <button type="submit" style="margin-top:60px" class="btn btn-primary">Submit</button>
-                  </form>
+                  
                 </div>
               </div>
             </div>
             <div class="table-responsive">
-              <!-- Projects table -->
+                <table class="table align-items-center table-flush">
+                    <tr>
+                      <th scope="col">Pertemuan Ke</th>
+                      <th scope="col">Nama Matakuliah</th>
+                      <th scope="col">Kelas</th>
+                      <th scope="col">Ruangan</th>
+                      <th scope="col">Waktu Awal</th>
+                      <th scope="col">Waktu Akhir</th>
+                    </tr>
+                    <% for(var i=0; i < Object.keys(kirim).length; i++) { %>
+                        <tr>
+                          <td><%= kirim[i].pertemuan_ke %></td>
+                          <td><%= kirim[i].nama_matkul %></td>
+                          <td><%= kirim[i].kelas %></td>
+                          <td><%= kirim[i].ruangan%></td>
+                          <td><%= kirim[i].waktu_awal %></td>
+                          <td><%= kirim[i].waktu_akhir %></td>
+                        </tr>
+                        <% } %>
+                  </table>
             </div>
           </div>
           
