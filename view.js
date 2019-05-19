@@ -91,6 +91,42 @@ app.get('/tambahmatkul', (req, res) => {
     res.render('tambahmatkulview.ejs',{nrp : req.session.nrp, nama : req.session.nama});
 })
 
+app.get('/jadwal', (req, res) => {
+    res.render('jadwalview.ejs',{nrp : req.session.nrp, nama : req.session.nama});
+})
+
+app.post('/jadwal', (req, res) => {
+    let id = req.body['idMatkul']
+    let pertemuan = req.body['pertemuan']
+    let kelas = req.body['kelas']
+    let masuk = req.body['masuk']
+    let selesai = req.body['selesai']
+    let angka = parseInt(pertemuan, 10)
+
+    agent.post(apiHost + '/apitambahjadwal')
+        .send({
+            id_matkul: id,
+            pertemuan_ke: angka,
+            ruangan: kelas,
+            waktu_awal: masuk,
+            waktu_akhir: selesai
+        })
+        .then(
+            (response) => {
+                console.log(response)
+                if (response.status == 200) {
+                    res.redirect('/jadwal');
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+                res.redirect('/jadwal');
+            }
+        )
+})
+
 app.post('/tambahmatkul', (req, res) => {
     let idMatkul = req.body['idMatkul']
     let namaMatkul = req.body['namaMatkul']
