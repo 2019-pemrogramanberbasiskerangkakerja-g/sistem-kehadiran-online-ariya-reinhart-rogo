@@ -186,7 +186,7 @@
                             <!-- Projects table -->
                             <table class="table align-items-center table-flush">
                                 <tr>
-                                    <th scope="col">NRP</th>
+                                    <th scope="col">ID Matkul</th>
                                     <th scope="col">1</th>
                                     <th scope="col">2</th>
                                     <th scope="col">3</th>
@@ -206,11 +206,7 @@
                                 </tr>
                                 <% for(var i=0; i < Object.keys(isi).length; i++) { %>
                                 <tr>
-                                    <% if(isi[i].nrp===nrp){ %>
-                                    <td><strong><%= isi[i].nrp %></strong></td>
-                                    <% } else{ %>
-                                    <td><%= isi[i].nrp %></td>
-                                    <% } %>
+                                    <td><%= isi[i].idMatkul %></td>
                                     <td><%= isi[i].p1 %></td>
                                     <td><%= isi[i].p2 %></td>
                                     <td><%= isi[i].p3 %></td>

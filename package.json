@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon api.js"
+    "serve": "nodemon index.js"
   },
   "author": "Ariya Wildan, Reinhart Caesar, Rogo Jagad Alit",
   "license": "ISC",

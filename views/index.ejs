@@ -166,6 +166,11 @@
           <!-- Card stats -->
           <h2 style="color:white;">Halo, <strong><%= nama %></strong></h2>
           <p style="color:white;"><%= nrp %></p>
+          <form action="/rekapsemua" method="post">
+            <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+            <input type="hidden" name="semester" id="semester" value='8'>
+            <button type="submit">Cek rekap</button>
+          </form>
         </div>
       </div>
     </div>
@@ -219,48 +224,48 @@
                 <form action="/absen" method="post">
                   <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
                   <input type="hidden" name="ruang" id="ruang" value='IF-101'>
-                  <input type="hidden" name="time" id="time">
-                  <button type="submit" onclick="changetime()">IF-101</button>
+                  <input type="hidden" name="time" id="time-101">
+                  <button type="submit" onclick="changetime('time-101')">IF-101</button>
                 </form>
               </td>
               <td>
                 <form action="/absen" method="post">
                   <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
                   <input type="hidden" name="ruang" id="ruang" value='IF-102'>
-                  <input type="hidden" name="time" id="time">
-                  <button type="submit" onclick="changetime()">IF-102</button>
+                  <input type="hidden" name="time" id="time-102">
+                  <button type="submit" onclick="changetime('time-102')">IF-102</button>
                 </form>
               </td>
               <td>
                 <form action="/absen" method="post">
                   <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
                   <input type="hidden" name="ruang" id="ruang" value='IF-103'>
-                  <input type="hidden" name="time" id="time">
-                  <button type="submit" onclick="changetime()">IF-103</button>
+                  <input type="hidden" name="time" id="time-103">
+                  <button type="submit" onclick="changetime('time-103')">IF-103</button>
                 </form>
               </td>
               <td>
                 <form action="/absen" method="post">
                   <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
                   <input type="hidden" name="ruang" id="ruang" value='IF-104'>
-                  <input type="hidden" name="time" id="time">
-                  <button type="submit" onclick="changetime()">IF-104</button>
+                  <input type="hidden" name="time" id="time-104">
+                  <button type="submit" onclick="changetime('time-104')">IF-104</button>
                 </form>
               </td>
               <td>
                 <form action="/absen" method="post">
                   <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
                   <input type="hidden" name="ruang" id="ruang" value='LP1'>
-                  <input type="hidden" name="time" id="time">
-                  <button type="submit" onclick="changetime()">LP1</button>
+                  <input type="hidden" name="time" id="time-lp1">
+                  <button type="submit" onclick="changetime('time-lp1')">LP1</button>
                 </form>
               </td>
               <td>
                 <form action="/absen" method="post">
                   <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
                   <input type="hidden" name="ruang" id="ruang" value='LP2'>
-                  <input type="hidden" name="time" id="time">
-                  <button onclick="changetime()">LP2</button>
+                  <input type="hidden" name="time" id="time-lp2">
+                  <button onclick="changetime('time-lp2')">LP2</button>
                 </form>
               </td>
             </tr>
@@ -307,8 +312,8 @@
   <!-- Argon JS -->
   <script src="./assets/js/argon.js?v=1.0.0"></script>
   <script>
-    function changetime() {
-      document.getElementById('time').value = new Date();
+    function changetime(idElement) {
+      document.getElementById(idElement).value = new Date();
     }
   </script>
 </body>

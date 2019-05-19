@@ -87,7 +87,7 @@ app.post('/register', (req, res) => {
         .then(
             (response) => {
                 if (response.status == 201) {
-                    res.render('register-success.ejs')
+                    res.redirect('/login')
                 }
             }
         )
@@ -131,7 +131,7 @@ app.post('/absen', (req, res) => {
     let ruang = req.body['ruang']
     let nrp = req.body['nrp']
     let time = req.body['time']
-    console.log(time)
+
     agent.post(apiHost + '/absen')
         .send({
             ruang: ruang,
@@ -293,7 +293,7 @@ app.post('/rekap', (req, res) => {
 
                 if (response.status == 200) {
                     console.log(response.body)
-                    res.render('rekapsemeter.ejs', { isi: response.body })
+                    res.render('rekapsemeter.ejs', { isi: response.body, nrp: req.session.user.nrp })
                 }
             }
         )
@@ -303,6 +303,27 @@ app.post('/rekap', (req, res) => {
             }
         )
 })
+
+app.post('/rekapsemua', (req, res) => {
+    let nrp = req.body['nrp']
+    let semester = req.body['semester']
+    agent.get(apiHost + '/rekapmahasiswa/' + nrp + '/' + semester)
+        .then(
+            (response) => {
+
+                if (response.status == 200) {
+                    console.log(response.body)
+                    res.render('rekaptotal.ejs', { isi: response.body })
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+            }
+        )
+})
+
 app.get('/keluar', (req, res) => {
     req.session.destroy();
     res.redirect('/login');
