@@ -79,17 +79,20 @@ app.post('/absen', (req, res) => {
             let jamMasuk = jadwal[i].jamMasuk
             let jamSelesai = jadwal[i].jamSelesai
             if (todayTime.getDate() == jamMasuk.getDate() && todayTime.getMonth() == jamMasuk.getMonth()) {
-                if (todayTime.getHours() >= jamMasuk.getHours() && todayTime.getHours() < jamSelesai.getHours()) {
+                // if (todayTime.getHours() >= jamMasuk.getHours() && todayTime.getHours() < jamSelesai.getHours()) {
 
-                    idMatkul = jadwal[i].idMatkul;
-                    pertemuanKe = jadwal[i].pertemuanKe.toString();
-                    break;
-                }
-                else if (todayTime.getHours() == jamSelesai.getHours() && todayTime.getMinutes() <= jamSelesai.getMinutes()) {
-                    idMatkul = jadwal[i].idMatkul;
-                    pertemuanKe = jadwal[i].pertemuanKe.toString();
-                    break;
-                }
+                //     idMatkul = jadwal[i].idMatkul;
+                //     pertemuanKe = jadwal[i].pertemuanKe.toString();
+                //     break;
+                // }
+                // else if (todayTime.getHours() == jamSelesai.getHours() && todayTime.getMinutes() <= jamSelesai.getMinutes()) {
+                //     idMatkul = jadwal[i].idMatkul;
+                //     pertemuanKe = jadwal[i].pertemuanKe.toString();
+                //     break;
+                // }
+
+                idMatkul = jadwal[i].idMatkul;
+                pertemuanKe = jadwal[i].pertemuanKe.toString();
             }
         }
 

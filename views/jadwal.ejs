@@ -272,8 +272,8 @@
       var tglSelesaiArr = tglSelesai.split("-")
       var jamSelesaiArr = jamSelesai.split(":")
 
-      var waktuMulai = new Date(tglMulaiArr[0], 4, tglMulaiArr[2], jamMulaiArr[0], jamMulaiArr[1], 0)
-      var waktuSelesai = new Date(tglSelesaiArr[0], 4, tglSelesaiArr[2], jamSelesaiArr[0], jamSelesaiArr[1], 0)
+      var waktuMulai = new Date(Date.UTC(tglMulaiArr[0], 4, tglMulaiArr[2], jamMulaiArr[0], jamMulaiArr[1], 0))
+      var waktuSelesai = new Date(Date.UTC(tglSelesaiArr[0], 4, tglSelesaiArr[2], jamSelesaiArr[0], jamSelesaiArr[1], 0))
 
       $('#mulai').val(waktuMulai)
       $('#selesai').val(waktuSelesai)
