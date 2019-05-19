@@ -218,58 +218,70 @@
               </table>
             </div>
           </div>
-          <table>
-            <tr>
-              <td>
-                <form action="/absen" method="post">
-                  <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
-                  <input type="hidden" name="ruang" id="ruang" value='IF-101'>
-                  <input type="hidden" name="time" id="time-101">
-                  <button type="submit" onclick="changetime('time-101')">IF-101</button>
-                </form>
-              </td>
-              <td>
-                <form action="/absen" method="post">
-                  <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
-                  <input type="hidden" name="ruang" id="ruang" value='IF-102'>
-                  <input type="hidden" name="time" id="time-102">
-                  <button type="submit" onclick="changetime('time-102')">IF-102</button>
-                </form>
-              </td>
-              <td>
-                <form action="/absen" method="post">
-                  <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
-                  <input type="hidden" name="ruang" id="ruang" value='IF-103'>
-                  <input type="hidden" name="time" id="time-103">
-                  <button type="submit" onclick="changetime('time-103')">IF-103</button>
-                </form>
-              </td>
-              <td>
-                <form action="/absen" method="post">
-                  <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
-                  <input type="hidden" name="ruang" id="ruang" value='IF-104'>
-                  <input type="hidden" name="time" id="time-104">
-                  <button type="submit" onclick="changetime('time-104')">IF-104</button>
-                </form>
-              </td>
-              <td>
-                <form action="/absen" method="post">
-                  <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
-                  <input type="hidden" name="ruang" id="ruang" value='LP1'>
-                  <input type="hidden" name="time" id="time-lp1">
-                  <button type="submit" onclick="changetime('time-lp1')">LP1</button>
-                </form>
-              </td>
-              <td>
-                <form action="/absen" method="post">
-                  <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
-                  <input type="hidden" name="ruang" id="ruang" value='LP2'>
-                  <input type="hidden" name="time" id="time-lp2">
-                  <button onclick="changetime('time-lp2')">LP2</button>
-                </form>
-              </td>
-            </tr>
-          </table>
+          <br>
+          <div class="card shadow">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Absen Kelas</h3>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <tr>
+                  <td>
+                    <form action="/absen" method="post">
+                      <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+                      <input type="hidden" name="ruang" id="ruang" value='IF-101'>
+                      <input type="hidden" name="time" id="time-101">
+                      <button type="submit" onclick="changetime('time-101')">IF-101</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form action="/absen" method="post">
+                      <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+                      <input type="hidden" name="ruang" id="ruang" value='IF-102'>
+                      <input type="hidden" name="time" id="time-102">
+                      <button type="submit" onclick="changetime('time-102')">IF-102</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form action="/absen" method="post">
+                      <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+                      <input type="hidden" name="ruang" id="ruang" value='IF-103'>
+                      <input type="hidden" name="time" id="time-103">
+                      <button type="submit" onclick="changetime('time-103')">IF-103</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form action="/absen" method="post">
+                      <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+                      <input type="hidden" name="ruang" id="ruang" value='IF-104'>
+                      <input type="hidden" name="time" id="time-104">
+                      <button type="submit" onclick="changetime('time-104')">IF-104</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form action="/absen" method="post">
+                      <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+                      <input type="hidden" name="ruang" id="ruang" value='LP1'>
+                      <input type="hidden" name="time" id="time-lp1">
+                      <button type="submit" onclick="changetime('time-lp1')">LP1</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form action="/absen" method="post">
+                      <input type="hidden" name="nrp" id="nrp" value=<%= nrp %>>
+                      <input type="hidden" name="ruang" id="ruang" value='LP2'>
+                      <input type="hidden" name="time" id="time-lp2">
+                      <button onclick="changetime('time-lp2')">LP2</button>
+                    </form>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Footer -->

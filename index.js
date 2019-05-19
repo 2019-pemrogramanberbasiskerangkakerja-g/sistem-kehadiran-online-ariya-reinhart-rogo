@@ -9,7 +9,7 @@ const app = express()
 var request = require('request');
 
 // const apiHost = 'https://pbkk-online-absen-api.herokuapp.com'
-const apiHost = 'http://localhost:3001'
+const apiHost = 'http://pbkk-kelompok-8.herokuapp.com'
 var path = require("path");
 
 let Users = []
