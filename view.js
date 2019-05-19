@@ -32,10 +32,19 @@ app.get('/', (req, res) => {
     res.redirect("login");
 })
 app.get('/home', (req, res) => {
-    res.send("home");
+    if(req.session.nama)
+    {
+        res.render("homeview.ejs",{nrp : req.session.nrp, nama : req.session.nama});
+    }
+    else
+    {
+        res.redirect("login");
+    }
+    
 })
 
 app.post('/login', (req, res) => {
+    
     let nrp = req.body['nrp']
     let password = req.body['password']
     console.log(nrp)
@@ -48,6 +57,9 @@ app.post('/login', (req, res) => {
             (response) => {
                 console.log(response.status)
                 if (response.status == 200) {
+                    console.log(response.body[0].nama_user);
+                    req.session.nama = response.body[0].nama_user;
+                    req.session.nrp = nrp;
                     res.redirect("home");
                 }
             }
@@ -55,18 +67,53 @@ app.post('/login', (req, res) => {
         .catch(
             (err) => {
                 console.log(err)
-                req.session.error = 'Incorrect username or password';
                 res.redirect('/login');
             }
         )
 })
 
 app.get('/login', (req, res) => {
-    res.render("loginview.ejs");
+    if (req.session.nama)
+    {
+        res.redirect("homeview.ejs");
+    }   
+    else
+    {
+        res.render("loginview.ejs");
+    }
 })
 
 app.get('/daftar', (req, res) => {
     res.render('daftarview.ejs');
+})
+
+app.get('/tambahmatkul', (req, res) => {
+    res.render('tambahmatkulview.ejs',{nrp : req.session.nrp, nama : req.session.nama});
+})
+
+app.post('/tambahmatkul', (req, res) => {
+    let idMatkul = req.body['idMatkul']
+    let namaMatkul = req.body['namaMatkul']
+    let kelas = req.body['kelas']
+    console.log(idMatkul)
+    agent.post(apiHost + '/tambahmatkul')
+        .send({
+            semester: idMatkul,
+            nama_matkul: namaMatkul,
+            kelas: kelas
+        })
+        .then(
+            (response) => {
+                if (response.status == 200) {
+                    res.redirect('/home')
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+            }
+        )
 })
 
 app.post('/daftar', (req, res) => {
@@ -83,7 +130,7 @@ app.post('/daftar', (req, res) => {
         .then(
             (response) => {
                 if (response.status == 200) {
-                    res.send("berhasil");
+                    res.redirect("login");
                 }
             }
         )
