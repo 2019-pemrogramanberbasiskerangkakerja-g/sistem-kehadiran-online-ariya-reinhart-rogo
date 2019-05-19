@@ -112,18 +112,40 @@ app.get('/jadwal', (req, res) => {
     res.render('jadwalview.ejs',{nrp : req.session.nrp, nama : req.session.nama});
 })
 
+app.get('/peserta', (req, res) => {
+    res.render('pesertaview.ejs',{nrp : req.session.nrp, nama : req.session.nama});
+})
+
+app.post('/peserta', (req, res) => {
+    let id = req.body['idMatkul']
+    let selesai = req.body['nrp']
+    agent.get(apiHost + '/tambahpeserta/'+id+'/'+selesai)
+        .then(
+            (response) => {
+                console.log(response)
+                if (response.status == 200) {
+                    res.redirect('/home');
+                }
+            }
+        )
+        .catch(
+            (err) => {
+                console.log(err)
+                res.redirect('/home');
+            }
+        )
+})
+
 app.post('/jadwal', (req, res) => {
     let id = req.body['idMatkul']
     let pertemuan = req.body['pertemuan']
     let kelas = req.body['kelas']
     let masuk = req.body['masuk']
     let selesai = req.body['selesai']
-    let angka = parseInt(pertemuan, 10)
-
     agent.post(apiHost + '/apitambahjadwal')
         .send({
             id_matkul: id,
-            pertemuan_ke: angka,
+            pertemuan_ke: pertemuan,
             ruangan: kelas,
             waktu_awal: masuk,
             waktu_akhir: selesai

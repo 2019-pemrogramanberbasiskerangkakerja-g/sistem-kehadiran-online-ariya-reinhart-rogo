@@ -117,6 +117,11 @@
               <i class="ni ni-bullet-list-67 text-red"></i> Tambah Jadwal
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/peserta">
+              <i class="ni ni-bullet-list-67 text-red"></i> Tambah Peserta
+            </a>
+          </li>
         </ul>
         <!-- Divider -->
         <hr class="my-3">
@@ -181,6 +186,18 @@
                   <form action="rekapsemester" style="margin-top:50px;" method="post">
                     <label for="namaMatkul"> Id Mata Kuliah</label>
                     <input class="form-control form-control-alternative" type="text" name="idMatkul" id="idMatkul"
+                      placeholder="id Matkul">
+                    <button type="submit" style="margin-top:60px" class="btn btn-primary">Submit</button>
+                  </form>
+                </div>
+                <div class="col">
+                  <h3 class="mb-0">Rekap Per Pertemuan</h3>
+                  <form action="rekapsemester" style="margin-top:50px;" method="post">
+                    <label for="namaMatkul"> Id Mata Kuliah</label>
+                    <input class="form-control form-control-alternative" type="text" name="idMatkul" id="idMatkul"
+                      placeholder="id Matkul">
+                    <label style="margin-top:50px" for="namaMatkul"> Pertemuan Ke</label>
+                    <input class="form-control form-control-alternative" type="number" name="pertemuan" id="pertemuan"
                       placeholder="id Matkul">
                     <button type="submit" style="margin-top:60px" class="btn btn-primary">Submit</button>
                   </form>

@@ -1,3 +1,18 @@
+<!-- <h1>Tambah mata kuliah</h1>
+
+<form action="/tambahmatkul" method="post">
+    <label for="idMatkul"> ID Mata Kuliah</label>
+    <input type="text" name="idMatkul" id="idMatkul"><br>
+
+    <label for="namaMatkul"> Nama Mata Kuliah</label>
+    <input type="text" name="namaMatkul" id="namaMatkul"><br>
+
+    <label for="kelas"> Kelas</label>
+    <input type="kelas" name="kelas" id="kelas"><br>
+
+    <button type="submit">Submit</button>
+</form> -->
+
 <!DOCTYPE html>
 <html>
 
@@ -147,6 +162,7 @@
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
                   <span class="mb-0 text-sm  font-weight-bold"><%= nama %></span>
+
                 </div>
               </div>
             </a>
@@ -180,37 +196,20 @@
         <div class="col-xl-12 mb-12">
           <div class="card shadow">
             <div class="card-header border-0">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h3 class="mb-0">Rekap Kelas Persemester</h3>
-                  
-                </div>
-              </div>
-            </div>
-            <div class="table-responsive">
-                <table class="table align-items-center table-flush">
-                    <tr>
-                      <th scope="col">Pertemuan Ke</th>
-                      <th scope="col">Nama Matakuliah</th>
-                      <th scope="col">Kelas</th>
-                      <th scope="col">Ruangan</th>
-                      <th scope="col">Waktu Awal</th>
-                      <th scope="col">Waktu Akhir</th>
-                    </tr>
-                    <% for(var i=0; i < Object.keys(kirim).length; i++) { %>
-                        <tr>
-                          <td><%= kirim[i].pertemuan_ke %></td>
-                          <td><%= kirim[i].nama_matkul %></td>
-                          <td><%= kirim[i].kelas %></td>
-                          <td><%= kirim[i].ruangan%></td>
-                          <td><%= kirim[i].waktu_awal %></td>
-                          <td><%= kirim[i].waktu_akhir %></td>
-                        </tr>
-                        <% } %>
-                  </table>
+              <form action="peserta" method="post">
+                <label for="namaMatkul"> Id Mata Kuliah</label>
+                <input class="form-control form-control-alternative" type="text" name="idMatkul" id="idMatkul"
+                  placeholder="id Matkul">
+
+                <label for="namaMatkul" style="margin-top:30px">NRP</label>
+                <input class="form-control form-control-alternative" type="text" name="nrp" id="nrp"
+                  placeholder="Kelas">
+
+                <button type="submit" style="margin-top:60px" class="btn btn-primary">Submit</button>
+
+              </form>
             </div>
           </div>
-          
         </div>
       </div>
       <!-- Footer -->
@@ -239,8 +238,8 @@
               </li>
             </ul>
           </div>
+        </footer>
         </div>
-      </footer>
     </div>
   </div>
   <!-- Argon Scripts -->
@@ -252,11 +251,6 @@
   <script src="./assets/vendor/chart.js/dist/Chart.extension.js"></script>
   <!-- Argon JS -->
   <script src="./assets/js/argon.js?v=1.0.0"></script>
-  <script>
-    function changetime() {
-      document.getElementById('time').value = new Date();
-    }
-  </script>
 </body>
 
-</html> 
+</html>
